@@ -37,7 +37,7 @@ kairos switch
 ```
 (Use `d` to delete a goal)
 
-### Take a Break
+### Take a Break (not implemented yet)
 ```bash
 kairos chill
 ```

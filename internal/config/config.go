@@ -1,9 +1,11 @@
 package config
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -50,6 +52,23 @@ func Load() (*Config, error) {
 	var cfg Config
 	if err := viper.Unmarshal(&cfg); err != nil {
 		return nil, fmt.Errorf("unable to decode into struct: %w", err)
+	}
+
+	if cfg.GeminiAPIKey == "" {
+		fmt.Print("Gemini API Key not found. Please enter it: ")
+		reader := bufio.NewReader(os.Stdin)
+		key, err := reader.ReadString('\n')
+		if err != nil {
+			return nil, fmt.Errorf("failed to read input: %w", err)
+		}
+		key = strings.TrimSpace(key)
+		cfg.GeminiAPIKey = key
+		viper.Set("gemini_api_key", key)
+
+		if err := viper.WriteConfigAs(filepath.Join(configPath, "config.yaml")); err != nil {
+			return nil, fmt.Errorf("failed to save config: %w", err)
+		}
+		fmt.Print("\033[H\033[2J")
 	}
 
 	return &cfg, nil
