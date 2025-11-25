@@ -2,6 +2,7 @@ package commands
 
 import (
 	"database/sql"
+	"fmt"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -33,13 +34,14 @@ func NewRootCmd(a *app.App) *cobra.Command {
 					ui.RenderSubtitle("No active goal selected. Use 'kairos add' to start or 'kairos switch' to pick one.")
 					// Clean up invalid state
 					a.DB.Exec("DELETE FROM app_state WHERE key = 'current_goal_id'")
+				} else if err.Error() == "user aborted" {
+					fmt.Print("\033[H\033[2J")
+					fmt.Println("Keep grinding 💪")
 				} else {
 					ui.RenderError(err)
 				}
 				return
 			}
-			// fmt.Print("\033[H\033[2J")
-			// fmt.Println("Keep grinding 💪")
 		},
 	}
 

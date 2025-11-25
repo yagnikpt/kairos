@@ -2,6 +2,8 @@
 
 **Kairos** is a CLI productivity tool designed to help you focus on what matters. It breaks down your goals into actionable milestones and tasks using AI, keeping you in the flow with a distraction-free TUI.
 
+**NOTE**: This project is vibe coded and built mainly for my personal use.
+
 ## Features
 
 - **AI-Powered Planning**: Automatically breaks down goals into high-level milestones and subtasks.
